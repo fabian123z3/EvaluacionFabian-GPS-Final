@@ -1,11 +1,8 @@
 package cl.santotomas.evaluacionfabian_gps;
 
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Telephony;
-
+import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -13,21 +10,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import cl.santotomas.evaluacionfabian_gps.databinding.ActivityMapaMainBinding;
-
 public class MapaMain extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private ActivityMapaMainBinding binding;
+    private String[] coordenadas = new String[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mapa_main);
 
-        binding = ActivityMapaMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        Intent intent = getIntent();
+        coordenadas[0] = intent.getStringExtra("coordenadas 1");
+        coordenadas[1] = intent.getStringExtra("coordenadas 2");
+        coordenadas[2] = intent.getStringExtra("coordenadas 3");
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -37,9 +34,15 @@ public class MapaMain extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Esta es su ubicación actual"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        for (String coordenada : coordenadas) {
+            if (coordenada == null) continue;
+            String[] coordenadasArray = coordenada.split(",");
+            if (coordenadasArray.length != 2) continue;
+            double latitud = Double.parseDouble(coordenadasArray[0]);
+            double longitud = Double.parseDouble(coordenadasArray[1]);
+            LatLng ubicacion = new LatLng(latitud, longitud);
+            mMap.addMarker(new MarkerOptions().position(ubicacion));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacion));
+        }
     }
 }

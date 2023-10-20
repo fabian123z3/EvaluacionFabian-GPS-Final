@@ -45,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, MapaMain.class);
 
-                intent.putExtra("cordenadas 1", cordenadas1);
-                intent.putExtra("cordenadas 2", cordenadas2);
-                intent.putExtra("cordenadas 3", cordenadas3);
+                intent.putExtra("coordenadas 1", cordenadas1);
+                intent.putExtra("coordenadas 2", cordenadas2);
+                intent.putExtra("coordenadas 3", cordenadas3);
+
 
                 startActivity(intent);
             }
