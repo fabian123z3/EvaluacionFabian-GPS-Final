@@ -38,12 +38,6 @@ public class MapaMain extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        //Importante activar la ubicacion
-        mMap.setMyLocationEnabled(true);
-
         for (String coordenada : coordenadas) {
             if (coordenada == null) continue;
             String[] coordenadasArray = coordenada.split(",");
